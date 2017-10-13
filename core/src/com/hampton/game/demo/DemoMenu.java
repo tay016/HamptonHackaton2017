@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.hampton.game.GameScreen;
+import com.hampton.game.utils.ActorUtils;
 
 /**
  * Created by turnerd on 10/13/17.
@@ -19,8 +20,13 @@ public class DemoMenu extends GameScreen {
     }
 
     @Override
+    public void initialize() {
+
+    }
+
+    @Override
     public void createActors() {
-        buttonFromText = utils.createButtonFromText("Click to go to" + nextScreenName,
+        buttonFromText = ActorUtils.createButtonFromText("Click to go to" + nextScreenName,
                 new Color(1, 1, 1, 1));
         stage.addActor(buttonFromText);
     }

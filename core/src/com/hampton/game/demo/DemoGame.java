@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.hampton.game.GameScreen;
+import com.hampton.game.utils.ActorUtils;
 
 /**
  * Created by turnerd on 10/13/17.
@@ -16,11 +17,16 @@ public class DemoGame extends GameScreen {
     private Actor buttonFromText;
 
     @Override
+    public void initialize() {
+
+    }
+
+    @Override
     public void createActors() {
         backgroundColor = new Color(1, 1, 1, 1);
-        actorFromImage = utils.createActorFromImage("badlogic.jpg");
+        actorFromImage = ActorUtils.createActorFromImage("badlogic.jpg");
         actorFromImage.setPosition(70, 70);
-        buttonFromText = utils.createButtonFromText("Go back to menu", new Color(1, 1, 1, 1));
+        buttonFromText = ActorUtils.createButtonFromText("Go back to menu", new Color(1, 1, 1, 1));
         stage.addActor(actorFromImage);
         stage.addActor(buttonFromText);
     }
