@@ -8,9 +8,9 @@ public abstract class GameScreen {
     protected Stage stage;
     protected ActorUtils utils;
     private StateManager stateManager;
-    private long numFrames;
     protected Color backgroundColor = new Color();
     private long customFrameAmount;
+    protected long numFrames;
 
     public void setData(Stage stage, ActorUtils utils, StateManager stateManager) {
         this.stage = stage;
