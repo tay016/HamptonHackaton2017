@@ -6,7 +6,9 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.hampton.game.GameScreen;
 import com.hampton.game.utils.ActorUtils;
 
@@ -26,6 +28,7 @@ public class DemoGame extends GameScreen {
     private int pauseTime = 1;
     private int newDropInterval = 60;
     private int levelChangeInterval = 600;
+    private boolean gameOn = false;
 
     private Sound dropSound;
     private Music rainMusic;
@@ -39,6 +42,17 @@ public class DemoGame extends GameScreen {
         // start the playback of the background music immediately
         rainMusic.setLooping(true);
         rainMusic.play();
+        gameOn = true;
+        score = 0;
+        dropSpeed = 3;
+        newDropInterval = 60;
+        numFrames = 0;
+        // Clear any raindrops from previous games
+        for (Actor raindrop : stage.getActors()) {
+            if (raindrop.getName() != null && raindrop.getName().equals("drop")) {
+                raindrop.remove();
+            }
+        }
     }
 
     @Override
@@ -66,7 +80,7 @@ public class DemoGame extends GameScreen {
         if (Gdx.input.isTouched()) {
             bucket.setX(Gdx.input.getX() - 64 / 2);
         }
-        if (numFrames % newDropInterval == 0) {
+        if (gameOn && numFrames % newDropInterval == 0) {
             Actor drop = ActorUtils.createActorFromImage("droplet.png");
             drop.setPosition(
                     randomNumberGenerator.nextInt(stage.getViewport().getScreenWidth() - 64),
@@ -74,7 +88,7 @@ public class DemoGame extends GameScreen {
             drop.setName("drop");
             stage.addActor(drop);
         }
-        if (numFrames % pauseTime == 0) {
+        if (gameOn && numFrames % pauseTime == 0) {
             // move the raindrops, remove any that are beneath the bottom edge of
             // the screen or that hit the bucket. In the later case we play back
             // a sound effect as well.
@@ -83,7 +97,8 @@ public class DemoGame extends GameScreen {
                     raindrop.setPosition(raindrop.getX(), raindrop.getY() - dropSpeed);
 
                     if (raindrop.getY() + 64 < 0) {
-                        raindrop.remove();
+                        gameOn = false;
+                        break;
                     }
                     if (ActorUtils.actorsCollided(raindrop, bucket)) {
                         raindrop.remove();
@@ -93,10 +108,33 @@ public class DemoGame extends GameScreen {
                 }
             }
             scoreLabel.setText("Score: " + score + " Level: " + (dropSpeed-2));
+            if (!gameOn) {
+                loseGame();
+            }
         }
-        if (numFrames % levelChangeInterval == 0) {
+        if (gameOn && numFrames % levelChangeInterval == levelChangeInterval - 1) {
             dropSpeed++;
             newDropInterval = 180 / dropSpeed;
         }
+    }
+
+    private void loseGame() {
+        rainMusic.stop();
+        for (Actor raindrop : stage.getActors()) {
+            if (raindrop.getName() != null && raindrop.getName().equals("drop")) {
+                raindrop.remove();
+            }
+        }
+        final Actor backButton = ActorUtils.createButtonFromText(
+                "                            Final score: " + score + " Click to go to back to menu",
+                new Color(1, 1, 1, 1));
+        backButton.addListener(new ActorGestureListener() {
+            @Override
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                backButton.remove();
+                gotoScreen("Menu");
+            }
+        });
+        stage.addActor(backButton);
     }
 }
