@@ -39,4 +39,9 @@ public class DemoMenu extends GameScreen {
             }
         });
     }
+
+    @Override
+    protected void calledEveryFrame() {
+        
+    }
 }
