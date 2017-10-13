@@ -6,18 +6,15 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.hampton.game.utils.ActorUtils;
 
 public class HamptonHack extends ApplicationAdapter {
-	ActorUtils utils;
 	ScreenViewport viewport;
 	StateManager stateManager;
 
 	@Override
 	public void create () {
 		viewport = new ScreenViewport();
-		utils = new ActorUtils();
-		stateManager = new StateManager(viewport, utils);
+		stateManager = new StateManager(viewport);
 		addGameScreensHere();
 	}
 
