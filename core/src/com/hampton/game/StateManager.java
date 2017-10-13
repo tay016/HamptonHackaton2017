@@ -46,6 +46,7 @@ public class StateManager {
         }
         currentScreen = gameScreens.get(screenName);
         Gdx.input.setInputProcessor(currentScreen.getStage());
+        currentScreen.initialize();
     }
 
     public void dispose() {

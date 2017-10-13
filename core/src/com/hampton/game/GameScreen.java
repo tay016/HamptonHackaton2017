@@ -17,6 +17,9 @@ public abstract class GameScreen {
         this.stateManager = stateManager;
     }
 
+    // This method is called when the GameScreen gets focus
+    public abstract void initialize();
+
     public abstract void createActors();
 
     public abstract void setInputForActors();
