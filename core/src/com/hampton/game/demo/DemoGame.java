@@ -119,4 +119,9 @@ public class DemoGame extends GameScreen {
             }
         });
     }
+
+    @Override
+    protected void calledEveryFrame() {
+        
+    }
 }
