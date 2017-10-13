@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.hampton.game.GameScreen;
+import com.hampton.game.utils.ActorUtils;
 
 import java.util.Random;
 
@@ -43,7 +44,7 @@ public class DemoGame extends GameScreen {
     @Override
     public void createActors() {
         backgroundColor = new Color(0, 0, .2f, 1);
-        bucket = utils.createActorFromImage("bucket.png");
+        bucket = ActorUtils.createActorFromImage("bucket.png");
         bucket.setPosition(20, 20);
         scoreStyle = new Label.LabelStyle(new BitmapFont(), new Color(1,1,1,1));
         scoreLabel = new Label("0", scoreStyle);
@@ -66,7 +67,7 @@ public class DemoGame extends GameScreen {
             bucket.setX(Gdx.input.getX() - 64 / 2);
         }
         if (numFrames % newDropInterval == 0) {
-            Actor drop = utils.createActorFromImage("droplet.png");
+            Actor drop = ActorUtils.createActorFromImage("droplet.png");
             drop.setPosition(
                     randomNumberGenerator.nextInt(stage.getViewport().getScreenWidth() - 64),
                     stage.getViewport().getScreenHeight());
@@ -84,7 +85,7 @@ public class DemoGame extends GameScreen {
                     if (raindrop.getY() + 64 < 0) {
                         raindrop.remove();
                     }
-                    if (actorsCollided(raindrop, bucket)) {
+                    if (ActorUtils.actorsCollided(raindrop, bucket)) {
                         raindrop.remove();
                         dropSound.play();
                         score++;
