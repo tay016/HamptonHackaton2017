@@ -27,6 +27,7 @@ public class DemoGame extends GameScreen {
 
     @Override
     public void createActors() {
+        backgroundColor = new Color(1, 1, 1, 1);
         snakeHead = utils.createActorFromImage("snake_head.png");
         snakeHead.setPosition(70, 70);
         buttonFromText = utils.createButtonFromText("Go back to menu", new Color(1, 1, 1, 1));
