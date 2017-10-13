@@ -23,6 +23,9 @@ public class HamptonHack extends ApplicationAdapter {
 	}
 
 	public void addGameScreensHere() {
+		stateManager.setGameScreen("Menu", new DemoMenu("Game"));
+		stateManager.setGameScreen("Game", new DemoGame());
+		stateManager.goToScreen("Menu");
 	}
 
 	@Override
