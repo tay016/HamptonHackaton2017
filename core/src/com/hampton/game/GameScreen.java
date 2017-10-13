@@ -9,6 +9,7 @@ public abstract class GameScreen {
     protected ActorUtils utils;
     private StateManager stateManager;
     protected Color backgroundColor = new Color();
+    protected long numFrames;
 
     public void setData(Stage stage, ActorUtils utils, StateManager stateManager) {
         this.stage = stage;
@@ -25,6 +26,16 @@ public abstract class GameScreen {
     public final void gotoScreen(String screenName) {
         stateManager.goToScreen(screenName);
     }
+
+    /**
+     * Called before actors act!
+     */
+    public final void calledDuringRender() {
+        calledEveryFrame();
+        numFrames++;
+    }
+
+    protected abstract void calledEveryFrame();
 
     public Stage getStage() {
         return stage;

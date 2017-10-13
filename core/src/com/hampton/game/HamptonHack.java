@@ -40,6 +40,7 @@ public class HamptonHack extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		Color color = stateManager.getCurrentGameScreen().getBackgroundColor();
 		Gdx.gl.glClearColor(color.r, color.g, color.b, color.a);
+		stateManager.getCurrentGameScreen().calledDuringRender();
 		Stage stage = stateManager.getCurrentGameScreen().getStage();
 		stage.act(1.0f/60.0f);
 		stage.draw();
