@@ -1,5 +1,6 @@
 package com.hampton.game;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.hampton.game.utils.ActorUtils;
 
@@ -7,6 +8,7 @@ public abstract class GameScreen {
     protected Stage stage;
     protected ActorUtils utils;
     private StateManager stateManager;
+    protected Color backgroundColor = new Color();
 
     public void setData(Stage stage, ActorUtils utils, StateManager stateManager) {
         this.stage = stage;
@@ -26,5 +28,9 @@ public abstract class GameScreen {
 
     public Stage getStage() {
         return stage;
+    }
+
+    public Color getBackgroundColor() {
+        return backgroundColor;
     }
 }
