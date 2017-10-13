@@ -29,13 +29,13 @@ public class DemoGame extends GameScreen {
     public void createActors() {
         backgroundColor = new Color(1, 1, 1, 1);
         snakeHead = utils.createActorFromImage("snake_head.png");
-        snakeHead.setPosition(100, 100);
         buttonFromText = utils.createButtonFromText("Go back to menu", new Color(1, 1, 1, 1));
 
         stage.addActor(snakeHead);
         stage.addActor(buttonFromText);
 
         putArrowsInPlace();
+        reset();
     }
 
     public void putArrowsInPlace() {
@@ -120,10 +120,17 @@ public class DemoGame extends GameScreen {
         });
     }
 
+    private void reset() {
+        snakeHead.setPosition(100, 100);
+        snakeDirection = 0;
+        snakeHead.setRotation(0);
+    }
+
     @Override
     protected void calledEveryFrame() {
         if (snakeHead.getX() < 100 || snakeHead.getY() < 100
                 || snakeHead.getX() > 400 || snakeHead.getY() > 400) {
+            reset();
             gotoScreen("Menu");
         }
     }
