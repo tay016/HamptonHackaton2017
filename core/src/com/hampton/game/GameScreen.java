@@ -1,6 +1,8 @@
 package com.hampton.game;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public abstract class GameScreen {
@@ -43,5 +45,11 @@ public abstract class GameScreen {
 
     public Color getBackgroundColor() {
         return backgroundColor;
+    }
+
+    protected static boolean actorsCollided(Actor a, Actor b) {
+        Rectangle aBounds = new Rectangle(a.getX(), a.getY(), a.getWidth(), a.getHeight());
+        Rectangle bBounds = new Rectangle(b.getX(), b.getY(), b.getWidth(), b.getHeight());
+        return aBounds.overlaps(bBounds);
     }
 }

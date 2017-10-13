@@ -19,6 +19,11 @@ public class DemoMenu extends GameScreen {
     }
 
     @Override
+    public void initialize() {
+
+    }
+
+    @Override
     public void createActors() {
         buttonFromText = utils.createButtonFromText("Click to go to" + nextScreenName,
                 new Color(1, 1, 1, 1));

@@ -5,12 +5,10 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.hampton.game.GameScreen;
 
-import java.util.Iterator;
 import java.util.Random;
 
 /**
@@ -20,25 +18,19 @@ public class DemoGame extends GameScreen {
 
     private Random randomNumberGenerator = new Random();
     private Actor bucket;
-    private Label score;
+    private Label scoreLabel;
     private Label.LabelStyle scoreStyle;
+    private int score = 0;
     private int dropSpeed = 3;
     private int pauseTime = 1;
     private int newDropInterval = 60;
+    private int levelChangeInterval = 600;
 
     private Sound dropSound;
     private Music rainMusic;
 
     @Override
-    public void createActors() {
-        backgroundColor = new Color(0, 0, .2f, 1);
-        bucket = utils.createActorFromImage("bucket.png");
-        bucket.setPosition(20, 20);
-        scoreStyle = new Label.LabelStyle(new BitmapFont(), new Color(0,0,0,1));
-        score = new Label("0", scoreStyle);
-        stage.addActor(bucket);
-        stage.addActor(score);
-
+    public void initialize() {
         // load the drop sound effect and the rain background "music"
         dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
         rainMusic = Gdx.audio.newMusic(Gdx.files.internal("rain.mp3"));
@@ -46,6 +38,17 @@ public class DemoGame extends GameScreen {
         // start the playback of the background music immediately
         rainMusic.setLooping(true);
         rainMusic.play();
+    }
+
+    @Override
+    public void createActors() {
+        backgroundColor = new Color(0, 0, .2f, 1);
+        bucket = utils.createActorFromImage("bucket.png");
+        bucket.setPosition(20, 20);
+        scoreStyle = new Label.LabelStyle(new BitmapFont(), new Color(1,1,1,1));
+        scoreLabel = new Label("0", scoreStyle);
+        stage.addActor(bucket);
+        stage.addActor(scoreLabel);
     }
 
     @Override
@@ -58,6 +61,10 @@ public class DemoGame extends GameScreen {
 
     @Override
     protected void calledEveryFrame() {
+        // process user input
+        if (Gdx.input.isTouched()) {
+            bucket.setX(Gdx.input.getX() - 64 / 2);
+        }
         if (numFrames % newDropInterval == 0) {
             Actor drop = utils.createActorFromImage("droplet.png");
             drop.setPosition(
@@ -73,20 +80,22 @@ public class DemoGame extends GameScreen {
             for (Actor raindrop : stage.getActors()) {
                 if (raindrop.getName() != null && raindrop.getName().equals("drop")) {
                     raindrop.setPosition(raindrop.getX(), raindrop.getY() - dropSpeed);
+
+                    if (raindrop.getY() + 64 < 0) {
+                        raindrop.remove();
+                    }
+                    if (actorsCollided(raindrop, bucket)) {
+                        raindrop.remove();
+                        dropSound.play();
+                        score++;
+                    }
                 }
-                if (raindrop.getY() + 64 < 0) {
-                    raindrop.remove();
-                }
-                //if(raindrop.overlaps(bucket)) {
-                //    dropSound.play();
-                //    iter.remove();
-                //}
             }
-            score.setText(Integer.toString(stage.getActors().size));
+            scoreLabel.setText("Score: " + score + " Level: " + (dropSpeed-2));
         }
-        // process user input
-        if (Gdx.input.isTouched()) {
-            bucket.setX(Gdx.input.getX() - 64 / 2);
+        if (numFrames % levelChangeInterval == 0) {
+            dropSpeed++;
+            newDropInterval = 180 / dropSpeed;
         }
     }
 }
