@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.hampton.game.GameScreen;
+import com.hampton.game.utils.ActorUtils;
 
 /**
  * Created by turnerd on 10/13/17.
@@ -26,10 +27,15 @@ public class DemoGame extends GameScreen {
     private Actor rightArrow;
 
     @Override
+    public void initialize() {
+        
+    }
+
+    @Override
     public void createActors() {
         backgroundColor = new Color(1, 1, 1, 1);
-        snakeHead = utils.createActorFromImage("snake_head.png");
-        buttonFromText = utils.createButtonFromText("Go back to menu", new Color(1, 1, 1, 1));
+        snakeHead = ActorUtils.createActorFromImage("snake_head.png");
+        buttonFromText = ActorUtils.createButtonFromText("Go back to menu", new Color(1, 1, 1, 1));
 
         stage.addActor(snakeHead);
         stage.addActor(buttonFromText);
@@ -40,10 +46,10 @@ public class DemoGame extends GameScreen {
 
     public void putArrowsInPlace() {
 
-        upArrow = utils.createActorFromImage("arrow_upward_black_24x24.png");
-        leftArrow = utils.createActorFromImage("chevron_left_black_24x24.png");
-        downArrow = utils.createActorFromImage("arrow_downward_black_24x24.png");
-        rightArrow = utils.createActorFromImage("chevron_right_black_24x24.png");
+        upArrow = ActorUtils.createActorFromImage("arrow_upward_black_24x24.png");
+        leftArrow = ActorUtils.createActorFromImage("chevron_left_black_24x24.png");
+        downArrow = ActorUtils.createActorFromImage("arrow_downward_black_24x24.png");
+        rightArrow = ActorUtils.createActorFromImage("chevron_right_black_24x24.png");
 
         upArrow.setPosition(70, 70);
         leftArrow.setPosition(50, 50);
