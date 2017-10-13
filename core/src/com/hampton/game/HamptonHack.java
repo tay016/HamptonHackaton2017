@@ -37,6 +37,9 @@ public class HamptonHack extends ApplicationAdapter {
 	@Override
 	public void render () {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		// Sets the background to white
+		Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+
 		Stage stage = stateManager.getCurrentGameScreen().getStage();
 		stage.act(1.0f/60.0f);
 		stage.draw();
