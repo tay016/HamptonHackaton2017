@@ -26,7 +26,7 @@ public class MainMenu extends GameScreen {
 
     @Override
     public void createActors() {
-        buttonFromText = ActorUtils.createButtonFromText("Click to go to" + nextScreenName,
+        buttonFromText = ActorUtils.createButtonFromText("Click to go to " + nextScreenName,
                 new Color(1, 1, 1, 1));
         stage.addActor(buttonFromText);
     }

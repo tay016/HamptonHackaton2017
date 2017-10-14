@@ -181,7 +181,7 @@ public class SnakeGame extends GameScreen {
                 || snakeHead.getX() > MAX_LOCATION || snakeHead.getY() > MAX_LOCATION
                 || (numFrames % TIMER == 0 && checkBodyCollision())) {
             reset();
-            gotoScreen("Menu");
+            gotoScreen("EndingScreen");
         }
         if (ActorUtils.actorsCollided(snakeHead, apple)) {
             moveAppleAndAddBody();

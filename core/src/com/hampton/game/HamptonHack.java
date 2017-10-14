@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.hampton.game.demo.EndingScreen;
 import com.hampton.game.demo.SnakeGame;
 import com.hampton.game.demo.MainMenu;
 
@@ -21,6 +22,7 @@ public class HamptonHack extends ApplicationAdapter {
 	}
 
 	public void addGameScreensHere() {
+		stateManager.setGameScreen("EndingScreen", new EndingScreen("Menu"));
 		stateManager.setGameScreen("Menu", new MainMenu("Game"));
 		stateManager.setGameScreen("Game", new SnakeGame());
 		stateManager.goToScreen("Menu");
