@@ -78,11 +78,11 @@ public class ActorUtils {
     }
 
     /**
-     * Creates a circle using the width as the diameter.
+     * Creates an ellipse with the same size as the actor.
      *
      * @param filled If the circle should be filled in or not.
      */
-    public static Actor createCircleActor(final boolean filled) {
+    public static Actor createEllipseActor(final boolean filled) {
         final ShapeRenderer shapeRenderer = new ShapeRenderer();
         return new Actor() {
             @Override
@@ -95,7 +95,7 @@ public class ActorUtils {
                     shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
                 }
                 shapeRenderer.setColor(this.getColor());
-                shapeRenderer.circle(this.getX(), this.getY(), this.getWidth() / 2.0f);
+                shapeRenderer.ellipse(this.getX(), this.getY(), this.getWidth(), this.getHeight());
                 shapeRenderer.end();
                 batch.begin();
 
