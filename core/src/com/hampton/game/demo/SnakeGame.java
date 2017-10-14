@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.hampton.game.GameScreen;
 import com.hampton.game.utils.ActorUtils;
@@ -36,6 +37,7 @@ public class SnakeGame extends GameScreen {
     private Actor buttonFromText;
     private Actor apple;
     private int score;
+    private Label scoreLabel;
 
     @Override
     public void initialize() {
@@ -47,8 +49,8 @@ public class SnakeGame extends GameScreen {
         if (apple != null) {
             apple.remove();
         }
-        createApple();
         stage.addActor(apple);
+        scoreLabel.setText("Score: 0");
     }
 
     public void createApple() {
@@ -68,6 +70,10 @@ public class SnakeGame extends GameScreen {
         stage.addActor(snakeHead);
         stage.addActor(buttonFromText);
 
+        scoreLabel = ActorUtils.createButtonFromText("Score: 0", new Color(0, 0, 0, 1));
+        scoreLabel.setPosition(MIN_LOCATION, MAX_LOCATION + 50);
+        stage.addActor(scoreLabel);
+
         Actor rectangleActor = ActorUtils.createRectangleActor(false);
         rectangleActor.setName("Outline");
         rectangleActor.setPosition(MIN_LOCATION, MIN_LOCATION);
@@ -76,7 +82,7 @@ public class SnakeGame extends GameScreen {
         stage.addActor(rectangleActor);
 
         putArrowsInPlace();
-
+        createApple();
     }
 
     public void putArrowsInPlace() {
@@ -212,6 +218,7 @@ public class SnakeGame extends GameScreen {
 
     private void moveAppleAndAddBody() {
         score++;
+        scoreLabel.setText("Score: " + score);
         apple.setPosition(ActorUtils.getRandomFloat(MIN_LOCATION, MAX_LOCATION),
                 ActorUtils.getRandomFloat(MIN_LOCATION, MAX_LOCATION));
         Actor[] old = snakeBody;
