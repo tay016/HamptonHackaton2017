@@ -31,7 +31,7 @@ public class ActorUtils {
         return actor;
     }
 
-    public static Actor createButtonFromText(String text, Color color) {
+    public static Label createButtonFromText(String text, Color color) {
         Label.LabelStyle style = new Label.LabelStyle();
         style.font = new BitmapFont();
         style.fontColor = color;
