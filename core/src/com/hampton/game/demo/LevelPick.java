@@ -8,11 +8,13 @@ import com.hampton.game.GameScreen;
 import com.hampton.game.utils.ActorUtils;
 
 /**
- * Created by turnerd on 10/13/17.
+ * Created by iamtay016 on 10/13/17.
  */
 
 public class LevelPick extends GameScreen {
-    Actor buttonFromText;
+    Actor Graduation;
+    Actor Humble;
+    Actor AwakenLove;
     private String nextScreenName;
 
     public LevelPick(String nextScreenName) {
@@ -26,13 +28,30 @@ public class LevelPick extends GameScreen {
 
     @Override
     public void createActors() {
-        buttonFromText = ActorUtils.createButtonFromText(
-                "Start new game",
+        Graduation = ActorUtils.createButtonFromText(
+                "Graduation",
                 new Color(1, 1, 1, 1));
-        buttonFromText.setPosition(
-                stage.getViewport().getScreenWidth()/2 - buttonFromText.getWidth()/2,
-                stage.getViewport().getScreenHeight()/4 - buttonFromText.getHeight()/4);
-        stage.addActor(buttonFromText);
+        Graduation.setPosition(
+                stage.getViewport().getScreenWidth()/2 - Graduation.getWidth()/2,
+                stage.getViewport().getScreenHeight()/4 - Graduation.getHeight()/4);
+        stage.addActor(Graduation);
+
+        Humble = ActorUtils.createButtonFromText(
+                "Humble",
+                new Color(1, 1, 1, 1));
+        Humble.setPosition(
+                stage.getViewport().getScreenWidth()/2 - Humble.getWidth()/2,
+                stage.getViewport().getScreenHeight()/2 - Humble.getHeight()/2);
+        stage.addActor(Humble);
+
+
+        AwakenLove = ActorUtils.createButtonFromText(
+                "Awaken My Love",
+                new Color(1, 1, 1, 1));
+        AwakenLove.setPosition(
+                stage.getViewport().getScreenWidth()/2 - AwakenLove.getWidth()/2,
+                stage.getViewport().getScreenHeight()/3 - AwakenLove.getHeight()/3);
+        stage.addActor(AwakenLove);
     }
 
     @Override
@@ -42,10 +61,24 @@ public class LevelPick extends GameScreen {
 
     @Override
     public void setActionsForActors() {
-        buttonFromText.addListener(new ActorGestureListener() {
+        Graduation.addListener(new ActorGestureListener() {
             @Override
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                gotoScreen(nextScreenName);
+                gotoScreen("Game");
+            }
+        });
+
+        Humble.addListener(new ActorGestureListener() {
+            @Override
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                gotoScreen("Humble");
+            }
+        });
+
+        AwakenLove.addListener(new ActorGestureListener() {
+            @Override
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                gotoScreen("awakenLove");
             }
         });
     }

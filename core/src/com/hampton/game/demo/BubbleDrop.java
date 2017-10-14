@@ -32,23 +32,37 @@ public class BubbleDrop extends GameScreen {
 
     private Music kanyeMusic;
 
+    private String backGroundFile;
+    private String droppers;
+    private String catcher;
+    private String musicFile;
+
+
+    public BubbleDrop(String backGroundFile, String droppers, String catcher, String musicFile){
+
+        this.backGroundFile = backGroundFile;
+        this.droppers = droppers;
+        this.catcher = catcher;
+        this.musicFile = musicFile;
+    }
+
     @Override
     public void initialize() {
 
-        backGround = ActorUtils.createActorFromImage("backGround.png");
+        backGround = ActorUtils.createActorFromImage(backGroundFile);
         stage.addActor(backGround);
         backGround.toBack();
 
         // load the drop sound effect and the rain background "music"
 
-        kanyeMusic = Gdx.audio.newMusic(Gdx.files.internal("homeComing.mp3"));
+        kanyeMusic = Gdx.audio.newMusic(Gdx.files.internal(musicFile));
 
         // start the playback of the background music immediately
         kanyeMusic.setLooping(true);
         kanyeMusic.play();
         gameOn = true;
         score = 0;
-        dropSpeed = 2;
+        dropSpeed = 1;
         newDropInterval = 60;
         numFrames = 0;
         // Clear any raindrops from previous games
@@ -67,7 +81,7 @@ public class BubbleDrop extends GameScreen {
     @Override
     public void createActors() {
         backgroundColor = new Color(0, 0, .2f, 1);
-        kanyeBear = ActorUtils.createActorFromImage("kanyeBear.png");
+        kanyeBear = ActorUtils.createActorFromImage(catcher);
         kanyeBear.toFront();
         kanyeBear.setPosition(20, 20);
         stage.addActor(kanyeBear);
@@ -88,7 +102,7 @@ public class BubbleDrop extends GameScreen {
             kanyeBear.setX(Gdx.input.getX() - 64 / 2);
         }
         if (gameOn && numFrames % newDropInterval == 0) {
-            Actor gradCap = ActorUtils.createActorFromImage("gradeCap.png");
+            Actor gradCap = ActorUtils.createActorFromImage(droppers);
             gradCap.setPosition(
                     randomNumberGenerator.nextInt(stage.getViewport().getScreenWidth() - (int)gradCap.getWidth()),
                     stage.getViewport().getScreenHeight());
@@ -117,7 +131,7 @@ public class BubbleDrop extends GameScreen {
                     }
                 }
             }
-            scoreLabel.setText("Score: " + score + " Level: " + (dropSpeed-2));
+            scoreLabel.setText("Score: " + score + " Level: " + (dropSpeed-1));
             if (!gameOn) {
                 loseGame();
             }

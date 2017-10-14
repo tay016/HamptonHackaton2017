@@ -22,11 +22,7 @@ public class MainMenu extends GameScreen {
 
     @Override
     public void initialize() {
-
-        backGround = ActorUtils.createActorFromImage("MEME.jpeg");
-        stage.addActor(backGround);
-        backGround.toBack();
-    }
+}
 
     @Override
     public void createActors() {

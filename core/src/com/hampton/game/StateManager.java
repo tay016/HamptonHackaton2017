@@ -41,9 +41,11 @@ public class StateManager {
         if (! gameScreens.containsKey(screenName)) {
             throw new NullPointerException("Screen name does not exist please add a screen with the name: " + screenName);
         }
+
         currentScreen = gameScreens.get(screenName);
-        Gdx.input.setInputProcessor(currentScreen.getStage());
         currentScreen.initialize();
+        Gdx.input.setInputProcessor(currentScreen.getStage());
+
     }
 
     public void dispose() {
