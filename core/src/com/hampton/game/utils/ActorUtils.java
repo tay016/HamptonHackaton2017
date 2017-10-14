@@ -10,7 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
+import java.util.Random;
+
 public class ActorUtils {
+    private static Random randomNumberGenerator = new Random();
 
     // We make private constructors for util classes so no one can declare an instance of the class
     private ActorUtils(){}
@@ -37,5 +40,9 @@ public class ActorUtils {
         Rectangle aBounds = new Rectangle(a.getX(), a.getY(), a.getWidth(), a.getHeight());
         Rectangle bBounds = new Rectangle(b.getX(), b.getY(), b.getWidth(), b.getHeight());
         return aBounds.overlaps(bBounds);
+    }
+
+    public static float getRandomFloat(float low, float high) {
+        return randomNumberGenerator.nextFloat() * (high - low) + low;
     }
 }
