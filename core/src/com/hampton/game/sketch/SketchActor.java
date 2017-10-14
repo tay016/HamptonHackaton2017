@@ -11,11 +11,15 @@ import java.util.List;
  */
 
 public class SketchActor extends Actor {
-    private List<Point> points;
+    private float[] points = new float[0];
     final ShapeRenderer shapeRenderer = new ShapeRenderer();
 
-    public void setPoints(List<Point> points) {
-        this.points = points;
+    public void addPoint(Point point) {
+        float[] oldPoints = points;
+        points = new float[points.length + 2];
+        System.arraycopy(oldPoints, 0, points, 0, oldPoints.length);
+        points[points.length - 2] = point.x;
+        points[points.length -1] = point.y;
     }
 
     @Override
@@ -25,6 +29,9 @@ public class SketchActor extends Actor {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(0, 0, 0, 0);
         shapeRenderer.rect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+        if (points.length >= 4) {
+            shapeRenderer.polyline(points);
+        }
         shapeRenderer.end();
         batch.begin();
 
