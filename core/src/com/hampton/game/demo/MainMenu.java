@@ -12,6 +12,7 @@ import com.hampton.game.utils.ActorUtils;
  */
 
 public class MainMenu extends GameScreen {
+    private Actor backGround;
     Actor buttonFromText;
     private String nextScreenName;
 
@@ -22,6 +23,9 @@ public class MainMenu extends GameScreen {
     @Override
     public void initialize() {
 
+        backGround = ActorUtils.createActorFromImage("MEME.jpeg");
+        stage.addActor(backGround);
+        backGround.toBack();
     }
 
     @Override
@@ -31,7 +35,7 @@ public class MainMenu extends GameScreen {
                 new Color(1, 1, 1, 1));
         buttonFromText.setPosition(
                 stage.getViewport().getScreenWidth()/2 - buttonFromText.getWidth()/2,
-                stage.getViewport().getScreenHeight()/2 - buttonFromText.getHeight()/2);
+                stage.getViewport().getScreenHeight()/4 - buttonFromText.getHeight()/4);
         stage.addActor(buttonFromText);
     }
 

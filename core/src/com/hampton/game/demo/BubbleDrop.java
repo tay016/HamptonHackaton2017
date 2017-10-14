@@ -20,30 +20,35 @@ import java.util.Random;
 public class BubbleDrop extends GameScreen {
 
     private Random randomNumberGenerator = new Random();
-    private Actor bucket;
+    private Actor backGround;
+    private Actor kanyeBear;
     private Label scoreLabel;
     private Label.LabelStyle scoreStyle;
     private int score = 0;
-    private int dropSpeed = 3;
+    private int dropSpeed = 2;
     private int pauseTime = 1;
     private int newDropInterval = 60;
     private boolean gameOn = false;
 
-    private Sound dropSound;
-    private Music rainMusic;
+    private Music kanyeMusic;
 
     @Override
     public void initialize() {
+
+        backGround = ActorUtils.createActorFromImage("backGround.png");
+        stage.addActor(backGround);
+        backGround.toBack();
+
         // load the drop sound effect and the rain background "music"
-        dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
-        rainMusic = Gdx.audio.newMusic(Gdx.files.internal("rain.mp3"));
+
+        kanyeMusic = Gdx.audio.newMusic(Gdx.files.internal("homeComing.mp3"));
 
         // start the playback of the background music immediately
-        rainMusic.setLooping(true);
-        rainMusic.play();
+        kanyeMusic.setLooping(true);
+        kanyeMusic.play();
         gameOn = true;
         score = 0;
-        dropSpeed = 3;
+        dropSpeed = 2;
         newDropInterval = 60;
         numFrames = 0;
         // Clear any raindrops from previous games
@@ -62,9 +67,10 @@ public class BubbleDrop extends GameScreen {
     @Override
     public void createActors() {
         backgroundColor = new Color(0, 0, .2f, 1);
-        bucket = ActorUtils.createActorFromImage("bucket.png");
-        bucket.setPosition(20, 20);
-        stage.addActor(bucket);
+        kanyeBear = ActorUtils.createActorFromImage("kanyeBear.png");
+        kanyeBear.toFront();
+        kanyeBear.setPosition(20, 20);
+        stage.addActor(kanyeBear);
     }
 
     @Override
@@ -79,15 +85,15 @@ public class BubbleDrop extends GameScreen {
     protected void calledEveryFrame() {
         // process user input
         if (Gdx.input.isTouched()) {
-            bucket.setX(Gdx.input.getX() - 64 / 2);
+            kanyeBear.setX(Gdx.input.getX() - 64 / 2);
         }
         if (gameOn && numFrames % newDropInterval == 0) {
-            Actor drop = ActorUtils.createActorFromImage("droplet.png");
-            drop.setPosition(
-                    randomNumberGenerator.nextInt(stage.getViewport().getScreenWidth() - (int)drop.getWidth()),
+            Actor gradCap = ActorUtils.createActorFromImage("gradeCap.png");
+            gradCap.setPosition(
+                    randomNumberGenerator.nextInt(stage.getViewport().getScreenWidth() - (int)gradCap.getWidth()),
                     stage.getViewport().getScreenHeight());
-            drop.setName("drop");
-            stage.addActor(drop);
+            gradCap.setName("drop");
+            stage.addActor(gradCap);
         }
         if (gameOn && numFrames % pauseTime == 0) {
             // move the raindrops, remove any that are beneath the bottom edge of
@@ -101,9 +107,9 @@ public class BubbleDrop extends GameScreen {
                         gameOn = false;
                         break;
                     }
-                    if (ActorUtils.actorsCollided(raindrop, bucket)) {
+                    if (ActorUtils.actorsCollided(raindrop, kanyeBear)) {
                         raindrop.remove();
-                        dropSound.play();
+
                         score++;
                         if (score % 10 == 0) {
                             nextLevel();
@@ -124,7 +130,7 @@ public class BubbleDrop extends GameScreen {
     }
 
     private void loseGame() {
-        rainMusic.stop();
+        kanyeMusic.stop();
         for (Actor raindrop : stage.getActors()) {
             if (raindrop.getName() != null && raindrop.getName().equals("drop")) {
                 raindrop.remove();

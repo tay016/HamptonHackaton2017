@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.hampton.game.demo.BubbleDrop;
+import com.hampton.game.demo.LevelPick;
 import com.hampton.game.demo.MainMenu;
 
 public class HamptonHack extends ApplicationAdapter {
@@ -21,8 +22,9 @@ public class HamptonHack extends ApplicationAdapter {
 	}
 
 	public void addGameScreensHere() {
-		stateManager.setGameScreen("Menu", new MainMenu("Game"));
+		stateManager.setGameScreen("Menu", new MainMenu("Level"));
 		stateManager.setGameScreen("Game", new BubbleDrop());
+		stateManager.setGameScreen("Level", new LevelPick("Game"));
 		stateManager.goToScreen("Menu");
 	}
 
