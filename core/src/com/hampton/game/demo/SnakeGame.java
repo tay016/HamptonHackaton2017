@@ -8,10 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.hampton.game.GameScreen;
 import com.hampton.game.utils.ActorUtils;
 
+import java.util.Random;
+
 /**
  * Created by turnerd on 10/13/17.
  */
-public class DemoGame extends GameScreen {
+public class SnakeGame extends GameScreen {
 
     private Actor snakeHead;
     private Actor buttonFromText;
@@ -25,23 +27,38 @@ public class DemoGame extends GameScreen {
     private Actor leftArrow;
     private Actor downArrow;
     private Actor rightArrow;
+    private Actor apple;
 
     @Override
     public void initialize() {
-        
+        reset();
+        for (Actor actors: stage.getActors()) {
+            // Clear out everyone that is not our snake head or menu button
+            if (actors.getName() != null &&
+                    (actors.getName().equals("Body")
+                    || actors.getName().equals("Apple"))) {
+                actors.remove();
+            }
+        }
+    }
+
+    public void createApple() {
+        apple = ActorUtils.createActorFromImage("apple.png");
+        apple.setName("apple");
     }
 
     @Override
     public void createActors() {
         backgroundColor = new Color(1, 1, 1, 1);
         snakeHead = ActorUtils.createActorFromImage("snake_head.png");
-        buttonFromText = ActorUtils.createButtonFromText("Go back to menu", new Color(1, 1, 1, 1));
-
+        snakeHead.setName("Head");
+        buttonFromText = ActorUtils.createButtonFromText("Back to menu", new Color(1, 1, 1, 1));
+        buttonFromText.setName("Back");
         stage.addActor(snakeHead);
         stage.addActor(buttonFromText);
 
         putArrowsInPlace();
-        reset();
+
     }
 
     public void putArrowsInPlace() {

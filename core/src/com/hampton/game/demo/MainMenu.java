@@ -11,11 +11,11 @@ import com.hampton.game.utils.ActorUtils;
  * Created by turnerd on 10/13/17.
  */
 
-public class DemoMenu extends GameScreen {
+public class MainMenu extends GameScreen {
     Actor buttonFromText;
     private String nextScreenName;
 
-    public DemoMenu(String nextScreenName) {
+    public MainMenu(String nextScreenName) {
         this.nextScreenName = nextScreenName;
     }
 
