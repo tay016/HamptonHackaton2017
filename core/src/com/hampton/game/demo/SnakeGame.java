@@ -40,13 +40,12 @@ public class SnakeGame extends GameScreen {
     @Override
     public void initialize() {
         reset();
-        for (Actor actors: stage.getActors()) {
-            // Clear out everyone that is not our snake head or menu button
-            if (actors.getName() != null &&
-                    (actors.getName().equals("Body")
-                    || actors.getName().equals("Apple"))) {
-                actors.remove();
-            }
+        for (Actor actor: snakeBody) {
+            actor.remove();
+        }
+        snakeBody = new Actor[0];
+        if (apple != null) {
+            apple.remove();
         }
         createApple();
         stage.addActor(apple);
@@ -68,6 +67,13 @@ public class SnakeGame extends GameScreen {
         buttonFromText.setName("Back");
         stage.addActor(snakeHead);
         stage.addActor(buttonFromText);
+
+        Actor rectangleActor = ActorUtils.createRectangleActor(false);
+        rectangleActor.setName("Outline");
+        rectangleActor.setPosition(MIN_LOCATION, MIN_LOCATION);
+        rectangleActor.setSize(MAX_LOCATION - MIN_LOCATION + 30, MAX_LOCATION - MIN_LOCATION + 30);
+        rectangleActor.setColor(0, 0, 0, 1);
+        stage.addActor(rectangleActor);
 
         putArrowsInPlace();
 
