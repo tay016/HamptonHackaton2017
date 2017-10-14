@@ -27,7 +27,6 @@ public class DemoGame extends GameScreen {
     private int dropSpeed = 3;
     private int pauseTime = 1;
     private int newDropInterval = 60;
-    private int levelChangeInterval = 600;
     private boolean gameOn = false;
 
     private Sound dropSound;
@@ -60,9 +59,11 @@ public class DemoGame extends GameScreen {
         backgroundColor = new Color(0, 0, .2f, 1);
         bucket = ActorUtils.createActorFromImage("bucket.png");
         bucket.setPosition(20, 20);
-        scoreStyle = new Label.LabelStyle(new BitmapFont(), new Color(1,1,1,1));
-        scoreLabel = new Label("0", scoreStyle);
         stage.addActor(bucket);
+        scoreStyle = new Label.LabelStyle(new BitmapFont(), new Color(1,1,1,1));
+        scoreStyle.font.getData().setScale(4);
+        scoreLabel = new Label("0", scoreStyle);
+        scoreLabel.setPosition(0, stage.getViewport().getScreenHeight() - scoreLabel.getHeight());
         stage.addActor(scoreLabel);
     }
 
@@ -83,7 +84,7 @@ public class DemoGame extends GameScreen {
         if (gameOn && numFrames % newDropInterval == 0) {
             Actor drop = ActorUtils.createActorFromImage("droplet.png");
             drop.setPosition(
-                    randomNumberGenerator.nextInt(stage.getViewport().getScreenWidth() - 64),
+                    randomNumberGenerator.nextInt(stage.getViewport().getScreenWidth() - (int)drop.getWidth()),
                     stage.getViewport().getScreenHeight());
             drop.setName("drop");
             stage.addActor(drop);
@@ -94,7 +95,7 @@ public class DemoGame extends GameScreen {
             // a sound effect as well.
             for (Actor raindrop : stage.getActors()) {
                 if (raindrop.getName() != null && raindrop.getName().equals("drop")) {
-                    raindrop.setPosition(raindrop.getX(), raindrop.getY() - dropSpeed);
+                    raindrop.setPosition(raindrop.getX(), raindrop.getY() - dropSpeed*3);
 
                     if (raindrop.getY() + 64 < 0) {
                         gameOn = false;
@@ -104,6 +105,9 @@ public class DemoGame extends GameScreen {
                         raindrop.remove();
                         dropSound.play();
                         score++;
+                        if (score % 10 == 0) {
+                            nextLevel();
+                        }
                     }
                 }
             }
@@ -112,10 +116,11 @@ public class DemoGame extends GameScreen {
                 loseGame();
             }
         }
-        if (gameOn && numFrames % levelChangeInterval == levelChangeInterval - 1) {
-            dropSpeed++;
-            newDropInterval = 180 / dropSpeed;
-        }
+    }
+
+    private void nextLevel() {
+        dropSpeed++;
+        newDropInterval = 180 / dropSpeed;
     }
 
     private void loseGame() {
@@ -125,9 +130,11 @@ public class DemoGame extends GameScreen {
                 raindrop.remove();
             }
         }
+        scoreLabel.remove();
         final Actor backButton = ActorUtils.createButtonFromText(
-                "                            Final score: " + score + " Click to go to back to menu",
+                "Final score: " + score + " Click to go to back to menu",
                 new Color(1, 1, 1, 1));
+        backButton.setPosition(0, stage.getViewport().getScreenHeight() - backButton.getHeight());
         backButton.addListener(new ActorGestureListener() {
             @Override
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {

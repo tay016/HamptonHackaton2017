@@ -21,6 +21,7 @@ public class ActorUtils {
     public static Actor createActorFromImage(Texture texture) {
         Actor actor = new Image(new TextureRegionDrawable(new TextureRegion(texture)));
         actor.setOrigin(actor.getWidth()/2, actor.getHeight()/2);
+        actor.setSize(actor.getWidth()*3, actor.getHeight()*3);
         return actor;
     }
 
@@ -28,6 +29,7 @@ public class ActorUtils {
         Label.LabelStyle style = new Label.LabelStyle();
         style.font = new BitmapFont();
         style.fontColor = color;
+        style.font.getData().setScale(4);
         Label actor = new Label(text, style);
         actor.setOrigin(actor.getWidth()/2, actor.getHeight()/2);
         return actor;
