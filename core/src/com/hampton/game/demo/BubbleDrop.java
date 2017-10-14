@@ -52,6 +52,11 @@ public class BubbleDrop extends GameScreen {
                 raindrop.remove();
             }
         }
+        scoreStyle = new Label.LabelStyle(new BitmapFont(), new Color(1,1,1,1));
+        scoreStyle.font.getData().setScale(4);
+        scoreLabel = new Label("0", scoreStyle);
+        scoreLabel.setPosition(0, stage.getViewport().getScreenHeight() - scoreLabel.getHeight());
+        stage.addActor(scoreLabel);
     }
 
     @Override
@@ -60,11 +65,6 @@ public class BubbleDrop extends GameScreen {
         bucket = ActorUtils.createActorFromImage("bucket.png");
         bucket.setPosition(20, 20);
         stage.addActor(bucket);
-        scoreStyle = new Label.LabelStyle(new BitmapFont(), new Color(1,1,1,1));
-        scoreStyle.font.getData().setScale(4);
-        scoreLabel = new Label("0", scoreStyle);
-        scoreLabel.setPosition(0, stage.getViewport().getScreenHeight() - scoreLabel.getHeight());
-        stage.addActor(scoreLabel);
     }
 
     @Override
