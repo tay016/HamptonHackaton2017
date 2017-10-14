@@ -17,7 +17,7 @@ import java.util.Random;
 /**
  * Created by turnerd on 10/13/17.
  */
-public class DemoGame extends GameScreen {
+public class BubbleDrop extends GameScreen {
 
     private Random randomNumberGenerator = new Random();
     private Actor bucket;
