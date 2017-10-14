@@ -15,19 +15,27 @@ import java.util.Random;
  */
 public class SnakeGame extends GameScreen {
 
-    private Actor snakeHead;
-    private Actor buttonFromText;
-    private int snakeDirection = 0;
     private static final int UP = 0;
     private static final int LEFT = 1;
     private static final int DOWN = 2;
     private static final int RIGHT = 3;
-    private static final int AMOUNT_TO_MOVE = 2;
+    private static final int AMOUNT_TO_MOVE = 12;
+    private static final float MIN_LOCATION = 100;
+    private static final float MAX_LOCATION = 400;
+    private static final long TIMER = 10;
+
     private Actor upArrow;
     private Actor leftArrow;
     private Actor downArrow;
     private Actor rightArrow;
+
+    private Actor snakeHead;
+    private Actor[] snakeBody = new Actor[0];
+    private int snakeDirection = 0;
+
+    private Actor buttonFromText;
     private Actor apple;
+    private int score;
 
     @Override
     public void initialize() {
@@ -40,11 +48,15 @@ public class SnakeGame extends GameScreen {
                 actors.remove();
             }
         }
+        createApple();
+        stage.addActor(apple);
     }
 
     public void createApple() {
         apple = ActorUtils.createActorFromImage("apple.png");
-        apple.setName("apple");
+        apple.setName("Apple");
+        apple.setPosition(ActorUtils.getRandomFloat(MIN_LOCATION, MAX_LOCATION),
+                ActorUtils.getRandomFloat(MIN_LOCATION, MAX_LOCATION));
     }
 
     @Override
@@ -126,17 +138,19 @@ public class SnakeGame extends GameScreen {
         snakeHead.addAction(new Action() {
             @Override
             public boolean act(float delta) {
-                if (snakeDirection == UP) {
-                    snakeHead.moveBy(0, AMOUNT_TO_MOVE);
-                }
-                if (snakeDirection == LEFT) {
-                    snakeHead.moveBy(-AMOUNT_TO_MOVE, 0);
-                }
-                if (snakeDirection == DOWN) {
-                    snakeHead.moveBy(0, -AMOUNT_TO_MOVE);
-                }
-                if (snakeDirection == RIGHT) {
-                    snakeHead.moveBy(AMOUNT_TO_MOVE, 0);
+                if (numFrames % TIMER == 0) {
+                    if (snakeDirection == UP) {
+                        snakeHead.moveBy(0, AMOUNT_TO_MOVE);
+                    }
+                    if (snakeDirection == LEFT) {
+                        snakeHead.moveBy(-AMOUNT_TO_MOVE, 0);
+                    }
+                    if (snakeDirection == DOWN) {
+                        snakeHead.moveBy(0, -AMOUNT_TO_MOVE);
+                    }
+                    if (snakeDirection == RIGHT) {
+                        snakeHead.moveBy(AMOUNT_TO_MOVE, 0);
+                    }
                 }
                 return false;
             }
@@ -144,17 +158,63 @@ public class SnakeGame extends GameScreen {
     }
 
     private void reset() {
-        snakeHead.setPosition(100, 100);
-        snakeDirection = 0;
+        snakeHead.setPosition(MIN_LOCATION, MIN_LOCATION);
+        snakeDirection = UP;
         snakeHead.setRotation(0);
     }
 
     @Override
     protected void calledEveryFrame() {
-        if (snakeHead.getX() < 100 || snakeHead.getY() < 100
-                || snakeHead.getX() > 400 || snakeHead.getY() > 400) {
+        if (snakeHead.getX() < MIN_LOCATION || snakeHead.getY() < MIN_LOCATION
+                || snakeHead.getX() > MAX_LOCATION || snakeHead.getY() > MAX_LOCATION
+                || (numFrames % TIMER == 0 && checkBodyCollision())) {
             reset();
             gotoScreen("Menu");
         }
+        if (ActorUtils.actorsCollided(snakeHead, apple)) {
+            moveAppleAndAddBody();
+        }
+        if (numFrames % TIMER == 0) {
+            updateBodyPositions();
+        }
+    }
+
+    private boolean checkBodyCollision() {
+        for (int i = 4; i < snakeBody.length; i++) {
+            if (ActorUtils.actorsCollided(snakeHead, snakeBody[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void updateBodyPositions() {
+        if (snakeBody.length == 0) {
+            return;
+        }
+        for (int i = snakeBody.length - 1; i > 0; i--) {
+            Actor newPosition = snakeBody[i -1];
+            Actor beingChanged = snakeBody[i];
+            beingChanged.setPosition(newPosition.getX(), newPosition.getY());
+            beingChanged.setRotation(newPosition.getRotation());
+        }
+        Actor beingChanged = snakeBody[0];
+        beingChanged.remove();
+        beingChanged.setPosition(snakeHead.getX(), snakeHead.getY());
+        beingChanged.setRotation(snakeHead.getRotation());
+    }
+
+    private void moveAppleAndAddBody() {
+        score++;
+        apple.setPosition(ActorUtils.getRandomFloat(MIN_LOCATION, MAX_LOCATION),
+                ActorUtils.getRandomFloat(MIN_LOCATION, MAX_LOCATION));
+        Actor[] old = snakeBody;
+        snakeBody = new Actor[snakeBody.length + 1];
+        // This puts all the elements in old into snakebody
+        System.arraycopy(old, 0, snakeBody, 0, old.length);
+        Actor newBody = ActorUtils.createActorFromImage("snake_body.png");
+        newBody.setName("Body");
+        stage.addActor(newBody);
+        snakeBody[snakeBody.length - 1] = newBody;
     }
 }
