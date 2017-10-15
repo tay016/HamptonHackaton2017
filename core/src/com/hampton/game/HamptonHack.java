@@ -26,6 +26,7 @@ public class HamptonHack extends ApplicationAdapter {
 		stateManager.setGameScreen("Game", new BubbleDrop("backGround.png", "gradeCap.png", "kanyeBear2.png", "homeComing.mp3"));
 		stateManager.setGameScreen("Humble", new BubbleDrop("bricks.jpeg","DAMN.png","k-dot.png" ,"HUMBLE.mp3"));
 		stateManager.setGameScreen("awakenLove", new BubbleDrop("starySky.jpg","stars.png", "childish.png","Redbone.mp3"));
+		stateManager.setGameScreen("moonMan", new BubbleDrop("waterColor.jpeg","moon.png","kidCudi2.png","dayNnight.mp3"));
 		stateManager.setGameScreen("Level", new LevelPick("Game"));
 		stateManager.goToScreen("Menu");
 	}

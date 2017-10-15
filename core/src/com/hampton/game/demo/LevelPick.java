@@ -15,6 +15,7 @@ public class LevelPick extends GameScreen {
     Actor Graduation;
     Actor Humble;
     Actor AwakenLove;
+    Actor moonMan;
     private String nextScreenName;
 
     public LevelPick(String nextScreenName) {
@@ -52,6 +53,14 @@ public class LevelPick extends GameScreen {
                 stage.getViewport().getScreenWidth()/2 - AwakenLove.getWidth()/2,
                 stage.getViewport().getScreenHeight()/3 - AwakenLove.getHeight()/3);
         stage.addActor(AwakenLove);
+
+        moonMan = ActorUtils.createButtonFromText(
+                "Man on the Moon: The End of Day",
+                new Color(1, 1, 1, 1));
+        moonMan.setPosition(
+                stage.getViewport().getScreenWidth()/2 - moonMan.getWidth()/2,
+                stage.getViewport().getScreenHeight()/1 - moonMan.getHeight()/1);
+        stage.addActor(moonMan);
     }
 
     @Override
@@ -79,6 +88,13 @@ public class LevelPick extends GameScreen {
             @Override
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gotoScreen("awakenLove");
+            }
+        });
+
+        moonMan.addListener(new ActorGestureListener() {
+            @Override
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                gotoScreen("moonMan");
             }
         });
     }
